@@ -6,9 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SimpleLibraryProjectApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SimpleLibraryProjectApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(SimpleLibraryProjectApplication.class, args);
+  }
 }
-
