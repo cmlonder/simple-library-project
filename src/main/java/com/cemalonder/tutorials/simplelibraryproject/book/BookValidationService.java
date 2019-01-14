@@ -21,6 +21,8 @@ public class BookValidationService {
 
   void validate(BookValidators bookValidators, Book foundBook) {
     BookValidation bookValidation = bookValidatorFactory.getValidator(bookValidators);
-    bookValidation.validate(foundBook);
+    if (!Objects.isNull(bookValidation)) {
+      bookValidation.validate(foundBook);
+    }
   }
 }

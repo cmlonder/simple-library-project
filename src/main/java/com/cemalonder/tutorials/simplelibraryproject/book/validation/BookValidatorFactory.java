@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookValidatorFactory {
 
-  public BookValidation getValidator(BookValidators bookValidatior) {
-    if (Objects.isNull(bookValidatior)) {
+  public BookValidation getValidator(BookValidators bookValidator) {
+    if (Objects.isNull(bookValidator)) {
       return null;
     }
-    if (bookValidatior.equals(BookValidators.SAVE)) {
+    if (bookValidator.equals(BookValidators.SAVE)) {
       return new SaveValidator();
     }
-    if (bookValidatior.equals(BookValidators.UPDATE)) {
+    if (bookValidator.equals(BookValidators.UPDATE)) {
       return new UpdateValidator();
     }
     return null;
