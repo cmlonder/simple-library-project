@@ -11,6 +11,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -39,6 +42,7 @@ public class BookControllerTest {
   @MockBean private BookService bookService;
 
   private JacksonTester<BookDto> jsonBook;
+  private JacksonTester<List<BookDto>> jsonBooks;
 
   @Before
   public void setUp() {
@@ -93,6 +97,34 @@ public class BookControllerTest {
 
     assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     assertThat(response.getContentAsString()).isEqualTo(expectedBook);
+  }
+
+  @Test
+  public void findBooks_noBooksFound_shouldReturnEmptyList() throws Exception {
+    List<BookDto> bookDtos = Collections.emptyList();
+    String expectedBooks = jsonBooks.write(bookDtos).getJson();
+
+    given(bookService.findBooks()).willReturn(bookDtos);
+
+    MockHttpServletResponse response = mockMvc.perform(get("/api/books")).andReturn().getResponse();
+
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    assertThat(response.getContentAsString()).isEqualTo(expectedBooks);
+  }
+
+  @Test
+  public void findBooks_booksFound_shouldReturnBooksList() throws Exception {
+    BookDto bookDto1 = BookDto.builder().name("name1").build();
+    BookDto bookDto2 = BookDto.builder().name("name2").build();
+    List<BookDto> bookDtos = Arrays.asList(bookDto1, bookDto2);
+    String expectedBooks = jsonBooks.write(bookDtos).getJson();
+
+    given(bookService.findBooks()).willReturn(bookDtos);
+
+    MockHttpServletResponse response = mockMvc.perform(get("/api/books")).andReturn().getResponse();
+
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    assertThat(response.getContentAsString()).isEqualTo(expectedBooks);
   }
 
   @Test

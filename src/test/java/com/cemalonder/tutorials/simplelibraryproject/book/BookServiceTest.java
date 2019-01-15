@@ -3,6 +3,7 @@ package com.cemalonder.tutorials.simplelibraryproject.book;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -11,6 +12,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -70,6 +74,30 @@ public class BookServiceTest {
     Optional<BookDto> found = bookService.findBookById(1L);
 
     assertEquals(bookDto, found.orElse(null));
+  }
+
+  @Test
+  public void findBooks_noBooksFound_shouldReturnEmptyList() {
+    given(bookRepository.findAll()).willReturn(Collections.emptyList());
+    given(bookMapper.map(anyList())).willReturn(Collections.emptyList());
+
+    List<BookDto> bookDtos = bookService.findBooks();
+    assertEquals(0, bookDtos.size());
+  }
+
+  @Test
+  public void findBooks_booksFound_shouldReturnBooksList() {
+    BookDto bookDto1 = BookDto.builder().authorName("authorName1").name("name1").bookId(1L).build();
+    BookDto bookDto2 = BookDto.builder().authorName("authorName2").name("name2").bookId(2L).build();
+    List<BookDto> expected = Arrays.asList(bookDto1, bookDto2);
+
+    given(bookRepository.findAll()).willReturn(Collections.emptyList());
+    given(bookMapper.map(anyList())).willReturn(expected);
+
+    List<BookDto> bookDtos = bookService.findBooks();
+    assertEquals(2, bookDtos.size());
+    assertEquals(expected.get(0), bookDtos.get(0));
+    assertEquals(expected.get(1), bookDtos.get(1));
   }
 
   @Test(expected = NullPointerException.class)

@@ -1,5 +1,6 @@
 package com.cemalonder.tutorials.simplelibraryproject.book;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,6 +47,11 @@ public class BookService {
     return optionalBook.map(bookMapper::map);
   }
 
+  public List<BookDto> findBooks() {
+    List<Book> books = bookRepository.findAll();
+    return bookMapper.map(books);
+  }
+
   public BookDto insertBook(BookDto bookDto) {
     Objects.requireNonNull(bookDto, "bookDto can not be null");
 
@@ -69,4 +75,5 @@ public class BookService {
 
     return bookMapper.map(updatedBook);
   }
+
 }
