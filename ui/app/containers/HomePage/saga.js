@@ -6,7 +6,7 @@ import { makeSelectAddedBook } from 'containers/HomePage/selectors';
 import request from 'utils/request';
 
 export function* getBooks() {
-  const requestURL = 'https://simple-library-project-demo.herokuapp.com/api/books';
+  const requestURL = 'https://git.heroku.com/library-server-demo.git/api/books';
 
   try {
     // Call our request helper (see 'utils/request')
