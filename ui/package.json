@@ -27,8 +27,7 @@
     "pretest": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
-    "postinstall": "react-scripts build"
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll"
   },
   "dependencies": {
     "babel-polyfill": "6.26.0",
